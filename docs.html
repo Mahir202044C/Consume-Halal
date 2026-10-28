@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs — ConsumeHalal</title>
+<meta name="description" content="Documentation, installation guides, and FAQ for ConsumeHalal.">
+<meta property="og:title" content="ConsumeHalal — Docs">
+<meta property="og:image" content="og-image.png">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><img src="img/logo.png" alt="ConsumeHalal"><span class="brand-name">Consume<b>Halal</b></span></a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="docs.html">Docs</a>
+      <a href="about.html">About</a>
+      <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener">GitHub</a>
+      <button id="theme-toggle" aria-label="Toggle theme"><span class="toggle-icon">◐</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="section">
+  <div class="prose">
+    <h2>Installation</h2>
+    <p><strong>Windows:</strong> Download <code>.exe</code> or <code>.msi</code> and run the installer.</p>
+    <p><strong>Linux:</strong> On Debian/Ubuntu use <code>sudo dpkg -i consume-halal.deb</code> or install the <code>.AppImage</code> as a portable binary.</p>
+    <p><strong>macOS:</strong> Open the <code>.dmg</code>, drag ConsumeHalal to Applications. Allow the app on first launch via System Settings → Privacy &amp; Security.</p>
+    <p><strong>Android:</strong> Download the <code>.apk</code> and install directly — allow "Install unknown apps" for your browser if prompted.</p>
+    <p><strong>iOS:</strong> Join the TestFlight build via the link in the <a href="downloads.html">Downloads</a> section.</p>
+
+    <h2>Features</h2>
+    <p><strong>Daily Guides:</strong> A structured path that assigns a daily recitation module. Each module is a set of verses with context and translation, designed to build consistency over time.</p>
+    <p><strong>Live Audio Feedback:</strong> The app listens to your recitation in real time and flags tajweed issues — improper elongation, missing stops, or incorrect vowel points. Feedback is local and private.</p>
+    <p><strong>Practical Guides:</strong> Actionable study material that explains the "why" behind each rule so you can apply it beyond the app.</p>
+
+    <h2>FAQ</h2>
+    <dl class="faq">
+      <dt>Is ConsumeHalal free?</dt>
+      <dd>Yes. ConsumeHalal is 100% free and open-source under the MIT license. No ads, no subscriptions, no data collection.</dd>
+
+      <dt>Is my recitation data stored?</dt>
+      <dd>No. All audio processing happens on-device. Nothing is uploaded to a server.</dd>
+
+      <dt>Which platforms are supported?</dt>
+      <dd>Windows, Linux (Debian/Ubuntu), macOS, Android, and iOS (via TestFlight).</dd>
+
+      <dt>How do I verify a download?</dt>
+      <dd>Each GitHub release includes a <code>checksums.txt</code>. Run <code>sha256sum -c checksums.txt</code> after downloading to verify integrity.</dd>
+
+      <dt>Can I contribute?</dt>
+      <dd>Yes. The source is at <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener">github.com/mahir-sys/consume-halal</a>. Open an issue or submit a pull request.</dd>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p>© 2026 ConsumeHalal. Open-source under MIT.</p>
+    <p><a href="index.html">Home</a> · <a href="downloads.html">Downloads</a> · <a href="about.html">About</a> · <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

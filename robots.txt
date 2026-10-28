@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+Allow: /downloads.html
+Allow: /docs.html
+Allow: /about.html
+
+# AI crawl bots (ai-seo: llms.txt + JSON-LD already in place)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: /sitemap.xml

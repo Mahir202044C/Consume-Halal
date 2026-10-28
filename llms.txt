@@ -1,0 +1,33 @@
+# ConsumeHalal
+
+ConsumeHalal is a free, open-source Islamic recitation and companion application built with Tauri and Rust. It provides structured daily recitation guides, real-time audio feedback for tajweed accuracy, and practical study material across Windows, Linux, macOS, Android, and iOS.
+
+## Key Facts
+
+- **License:** MIT
+- **Price:** Free ($0.00) — no ads, no subscriptions, no data collection
+- **Platforms:** Windows (.exe / .msi), Linux (.deb / .AppImage), macOS (.dmg), Android (.apk), iOS (TestFlight)
+- **Privacy:** All audio processing is on-device. No network calls. No analytics.
+- **Repository:** https://github.com/mahir-sys/consume-halal
+
+## Download URLs
+
+All packages are published as GitHub Release assets on every vX.Y.Z tag:
+
+- Windows .exe: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.exe
+- Windows .msi: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.msi
+- Linux .deb: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.deb
+- Linux .AppImage: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.AppImage
+- macOS .dmg: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.dmg
+- Android .apk: https://github.com/mahir-sys/consume-halal/releases/latest/download/consume-halal.apk
+- iOS: TestFlight build — see https://github.com/mahir-sys/consume-halal/releases
+
+Checksums are published in each release's checksums.txt.
+
+## Site Pages
+
+- / (index.html) — Home, feature overview, OS-detect download CTA
+- /downloads.html — All platform packages, checksum table
+- /docs.html — Installation, features, FAQ
+- /about.html — Tech stack, license, contribute
+- /pricing.md — Free / MIT license confirmation

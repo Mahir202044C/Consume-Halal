@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConsumeHalal — Open-Source Islamic Recitation Companion</title>
+<meta name="description" content="ConsumeHalal is a free, open-source Islamic recitation and companion app built with Tauri and Rust. Download for Windows, Linux, macOS, Android, and iOS.">
+<meta property="og:title" content="ConsumeHalal — Open-Source Islamic Recitation Companion">
+<meta property="og:description" content="Free, open-source Islamic recitation and companion app. Windows, Linux, macOS, Android, iOS.">
+<meta property="og:image" content="img/og-image.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/favicon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ConsumeHalal",
+  "description": "Open-source Islamic recitation and companion app built with Tauri and Rust. Supports live feedback, daily guides, and practical study across Windows, Linux, macOS, Android, and iOS.",
+  "operatingSystem": "Windows, Linux, macOS, Android, iOS",
+  "applicationCategory": "EducationalApplication",
+  "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" },
+  "url": "https://github.com/mahir-sys/consume-halal",
+  "downloadUrl": "https://github.com/mahir-sys/consume-halal/releases"
+}
+</script>
+<style>
+/* Apple-Inspired Minimalist + Nothing Dot-Matrix. Palette: user's 5-color set.
+   Dark default, light toggle. ~7KB. */
+:root {
+  --bg: #ede4d6;
+  --text: #10443e;
+  --muted: #32745c;
+  --accent: #32745c;
+  --accent-bright: #62a29a;
+  --ochre: #b29361;
+  --ink-dim: #62a29a;
+  --card: #ffffff;
+  --border: rgba(16, 68, 62, 0.15);
+  --nav-bg: rgba(237, 228, 214, 0.8);
+  --btn-bg: #10443e;
+  --btn-text: #ede4d6;
+  --dot: #10443e;
+}
+[data-theme="dark"] {
+  --bg: #0b1512;
+  --text: #ede4d6;
+  --muted: #62a29a;
+  --card: #10443e;
+  --border: rgba(237, 228, 214, 0.12);
+  --nav-bg: rgba(11, 21, 18, 0.8);
+  --btn-bg: #ede4d6;
+  --btn-text: #0b1512;
+  --dot: #ede4d6;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+b { font-weight: 700; }
+
+/* nav — frosted glass */
+.nav {
+  position: fixed; top: 0; width: 100%; height: 48px; z-index: 9999;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 40px;
+}
+.brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 600; letter-spacing: -0.02em; }
+.brand img { height: 24px; width: auto; }
+.brand b { color: var(--accent-bright); }
+.nav-right { display: flex; align-items: center; gap: 1.25rem; }
+.nav-links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.75rem; }
+.nav-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+#theme-toggle {
+  background: none; border: 1px solid var(--border); border-radius: 999px;
+  width: 32px; height: 32px; cursor: pointer; color: var(--text); font-size: 0.85rem;
+  display: grid; place-items: center;
+}
+#theme-toggle:hover { border-color: var(--accent-bright); }
+
+/* hero — full viewport with canvas */
+.hero {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh; padding-top: 48px; text-align: center; position: relative;
+}
+.canvas-container { position: relative; width: 100%; max-width: 900px; height: 250px; margin-bottom: 40px; }
+canvas { width: 100%; height: 100%; display: block; }
+.kicker {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ochre); margin-bottom: 0.75rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; letter-spacing: -0.04em;
+  line-height: 1.05; color: var(--text); margin-bottom: 1rem;
+}
+.sub { max-width: 30rem; margin: 0 auto 2rem; font-size: 1rem; color: var(--muted); }
+.hero-cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.75rem 1.5rem; border-radius: 980px; font-weight: 600; font-size: 0.875rem;
+  text-decoration: none; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
+  will-change: transform;
+}
+.btn:hover { transform: scale(1.04); opacity: 0.95; }
+.btn:active { transform: scale(0.98); }
+.btn.primary { background: var(--btn-bg); color: var(--btn-text); }
+.btn.ghost { border: 1px solid var(--border); color: var(--text); }
+.btn.ghost:hover { border-color: var(--accent-bright); }
+.fineprint { margin-top: 1rem; font-size: 0.7rem; color: var(--ink-dim); letter-spacing: 0.05em; }
+
+/* download container — Apple rounded pill buttons */
+.download-container { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 800px; padding: 0 20px; margin-top: 1.5rem; }
+.dl-pill {
+  background: var(--btn-bg); color: var(--btn-text);
+  font-size: 0.85rem; font-weight: 500; padding: 10px 22px; border-radius: 980px;
+  text-decoration: none; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
+  will-change: transform;
+}
+.dl-pill:hover { transform: scale(1.04); opacity: 0.95; }
+.dl-pill:active { transform: scale(0.98); }
+
+/* sections */
+.features, .platforms, .section { padding: 4rem 0; }
+.section-title {
+  text-align: center; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em;
+  margin-bottom: 0.5rem; color: var(--text);
+}
+.section-sub { text-align: center; color: var(--muted); margin-bottom: 2.5rem; font-size: 0.9rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.75rem 1.25rem;
+}
+.card-icon {
+  width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  color: var(--accent); margin-bottom: 1rem;
+}
+.card-icon svg { width: 22px; height: 22px; }
+.card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+.card p { font-size: 0.85rem; color: var(--muted); }
+
+.plat {
+  display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+  padding: 1.1rem 0.6rem; background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, transform 0.15s;
+}
+.plat:hover { border-color: var(--accent-bright); transform: translateY(-2px); }
+.plat-icon { height: 30px; display: grid; place-items: center; color: var(--accent); }
+.plat-icon svg { width: 26px; height: 26px; }
+.plat b { font-size: 0.8rem; }
+.plat-sub { font-size: 0.65rem; color: var(--ink-dim); }
+
+/* footer */
+.footer { border-top: 1px solid var(--border); padding: 1.75rem 0; font-size: 0.7rem; color: var(--ink-dim); }
+.footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.footer a { color: var(--ink-dim); text-decoration: none; }
+.footer a:hover { color: var(--accent-bright); }
+
+@media (max-width: 768px) {
+  .nav { padding: 0 20px; }
+  .canvas-container { height: 180px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { gap: 0.75rem; font-size: 0.7rem; }
+  .download-container .dl-pill { width: 100%; text-align: center; padding: 14px; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="index.html"><img src="img/logo.png" alt="ConsumeHalal"><span class="brand-name">Consume<b>Halal</b></span></a>
+  <div class="nav-right">
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="downloads.html">Downloads</a>
+      <a href="docs.html">Docs</a>
+      <a href="about.html">About</a>
+      <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button id="theme-toggle" aria-label="Toggle theme"><span>◐</span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="canvas-container">
+    <canvas id="dotMatrix"></canvas>
+  </div>
+  <div class="wrap">
+    <p class="kicker">Open Source · Cross-Platform · Tauri + Rust</p>
+    <h1>Recitation.<br>Reimagined.</h1>
+    <p class="sub">ConsumeHalal is a free, open-source Islamic recitation companion — live tajweed feedback, structured daily guides, and practical study material.</p>
+    <div class="hero-cta">
+      <a id="btn-smart" href="downloads.html" class="btn primary">Download for your device</a>
+      <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener" class="btn ghost">View on GitHub</a>
+    </div>
+    <div class="download-container">
+      <a class="dl-pill" href="downloads.html">Windows</a>
+      <a class="dl-pill" href="downloads.html">Linux</a>
+      <a class="dl-pill" href="downloads.html">macOS</a>
+      <a class="dl-pill" href="downloads.html">Android</a>
+      <a class="dl-pill" href="downloads.html">iOS</a>
+    </div>
+    <p class="fineprint">Free forever · MIT License · 100% open source · No ads · No tracking</p>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <h2 class="section-title">Core Architecture</h2>
+    <p class="section-sub">Three pillars. One app.</p>
+    <div class="grid-3">
+      <article class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4Zm4 4v2h9V8h-9Zm0 4v2h9v-2h-9Z" fill="currentColor"/></svg></div>
+        <h3>Daily Guides</h3>
+        <p>Structured daily recitation paths that build consistency with context and translation.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Zm7 9a1 1 0 1 1 2 0 9 9 0 0 1-18 0 1 1 0 1 1 2 0 7 7 0 0 0 14 0Z" fill="currentColor"/></svg></div>
+        <h3>Live Feedback</h3>
+        <p>Real-time tajweed analysis, on-device. No audio ever leaves your device.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4V4Zm0 4h16v2H4V8Zm0 4h11v2H4v-2Zm0 4h16v2H4v-2Z" fill="currentColor"/></svg></div>
+        <h3>Practical Guides</h3>
+        <p>Actionable study material — the what, why, and how of correct recitation.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="platforms">
+  <div class="wrap">
+    <h2 class="section-title">Every Platform</h2>
+    <p class="section-sub">One codebase. Five native packages. Zero lock-in.</p>
+    <div class="grid-5">
+      <a class="plat" href="downloads.html"><span class="plat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.5 4.7v6.8H3V5.5Zm0 13V12.5h7.5v6L3 18.5ZM11.5 4.5 21 3v8.5h-9.5v-7Zm0 7.5H21v8.5l-9.5-1.7V12Z" fill="currentColor"/></svg></span><b>Windows</b><span class="plat-sub">.exe / .msi</span></a>
+      <a class="plat" href="downloads.html"><span class="plat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></span><b>Linux</b><span class="plat-sub">.deb / .AppImage</span></a>
+      <a class="plat" href="downloads.html"><span class="plat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-3 0-5 2-5 5 0 4 5 13 5 13s5-9 5-13c0-3-2-5-5-5Z" fill="currentColor"/></svg></span><b>macOS</b><span class="plat-sub">.dmg</span></a>
+      <a class="plat" href="downloads.html"><span class="plat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="10" y1="19" x2="14" y2="19" stroke="currentColor" stroke-width="2"/></svg></span><b>Android</b><span class="plat-sub">.apk</span></a>
+      <a class="plat" href="downloads.html"><span class="plat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2"/></svg></span><b>iOS</b><span class="plat-sub">TestFlight</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p>© 2026 ConsumeHalal. Open-source under MIT.</p>
+    <p><a href="downloads.html">Downloads</a> · <a href="docs.html">Docs</a> · <a href="about.html">About</a> · <a href="https://github.com/mahir-sys/consume-halal" target="_blank" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+
+<script src="home.js" defer></script>
+</body>
+</html>
